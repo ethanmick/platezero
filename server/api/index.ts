@@ -15,7 +15,7 @@ import { users } from './users'
 const r = express.Router()
 
 // parse JSON bodies
-r.use(express.json())
+r.use(express.json() as any)
 
 // check each request for authentication, but don't deny requests without it
 r.use(
