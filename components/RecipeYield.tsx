@@ -2,8 +2,6 @@ import React, { useState, useRef, useEffect } from 'react'
 import { FormGroup, Label, Input } from 'reactstrap'
 import * as _ from 'lodash'
 
-import { RecipeYieldJSON } from '../models'
-
 interface Props {
   yield: RecipeYieldJSON
   onChange?: (recipeYield: RecipeYieldJSON) => any
@@ -20,7 +18,7 @@ export function RecipeYield(props: Props) {
       const origYield = _.get(orig.current, 'text')
       const result = {
         id: origYield === text ? _.get(orig.current, 'id') : undefined,
-        text: _.trim(text)
+        text: _.trim(text),
       }
       setModel(result)
     }

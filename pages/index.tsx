@@ -9,14 +9,13 @@ import {
   Nav,
 } from 'reactstrap'
 import Head from 'next/head'
-import '../style/index.scss'
 import { ProfilePicture } from '../components'
 import { UserContext } from '../context/UserContext'
 import { Footer } from '../components/Footer'
 import Link from 'next/link'
 
 const HomeNav = () => {
-  const { user } = useContext(UserContext)
+  const user: any = useContext(UserContext)
   const action = user ? (
     <Link href={`/${user.username}`}>
       <a className="d-block py-1 px-2">

@@ -5,7 +5,7 @@ describe('parse temperature', () => {
     expect(parseTemperature('100c')).toEqual({ temperature: 100, unit: 'C' })
     expect(parseTemperature('  55 degrees')).toEqual({
       temperature: 55,
-      unit: 'F'
+      unit: 'F',
     })
     expect(parseTemperature('20f')).toEqual({ temperature: 20, unit: 'F' })
     expect(parseTemperature('20 C')).toEqual({ temperature: 20, unit: 'C' })
@@ -14,7 +14,5 @@ describe('parse temperature', () => {
   it('should work with invalid inputs', () => {
     expect(parseTemperature('')).toEqual({ temperature: 0, unit: 'F' })
     expect(parseTemperature('    ')).toEqual({ temperature: 0, unit: 'F' })
-    expect(parseTemperature(undefined)).toEqual({ temperature: 0, unit: 'F' })
-    expect(parseTemperature(null)).toEqual({ temperature: 0, unit: 'F' })
   })
 })

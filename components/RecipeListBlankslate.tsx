@@ -1,6 +1,5 @@
 import React from 'react'
 import { IfLoggedIn } from './IfLoggedIn'
-import { Link } from '../routes'
 import { Blankslate } from './Blankslate'
 
 export const RecipeListBlankslate = (props: { username: string }) => (
@@ -15,7 +14,7 @@ export const RecipeListBlankslate = (props: { username: string }) => (
 )
 
 export const RecipeListNoSearchResults = ({
-  username
+  username,
 }: {
   username: string
 }) => (

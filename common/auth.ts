@@ -1,12 +1,11 @@
 import cookie from 'js-cookie'
 import nextCookie from 'next-cookies'
 import Router from 'next/router'
-import { UserJSON } from '../models/user'
 
 export interface Authentication {
   token?: string
   refresh?: string
-  user?: UserJSON
+  user?: any
 }
 
 export const authenticated = async (token: string, refresh: string) => {
@@ -20,7 +19,7 @@ export const authenticated = async (token: string, refresh: string) => {
 export const getAuth = (ctx: any = undefined): Authentication => {
   try {
     const { auth } = ctx ? nextCookie(ctx) : cookie.get()
-    return JSON.parse(auth)
+    return JSON.parse(auth || '')
   } catch {
     return {}
   }

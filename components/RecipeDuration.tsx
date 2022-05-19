@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import * as _ from 'lodash'
 
-import { RecipeDurationJSON } from '../models'
 import { DurationInput } from './DurationInput'
 
 interface Props {
@@ -22,7 +21,7 @@ export function RecipeDuration(props: Props) {
       const origSeconds = _.get(orig.current, 'duration_seconds')
       setModel({
         id: origSeconds === seconds ? _.get(orig.current, 'id') : undefined,
-        duration_seconds: seconds
+        duration_seconds: seconds,
       })
     }
   }, [seconds])

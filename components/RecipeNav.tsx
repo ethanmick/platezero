@@ -16,16 +16,13 @@ import {
   Button,
   Nav,
   NavItem,
-  NavLink
+  NavLink,
 } from 'reactstrap'
 import getConfig from 'next/config'
-import { RecipeJSON, NoteJSON } from '../models'
 import { UserContext } from '../context/UserContext'
-import { RecipeContext } from '../context/RecipeContext'
-import { getErrorMessages, api } from '../common/http'
+import { api } from '../common/http'
 import { IfLoggedIn } from './IfLoggedIn'
 import { AlertErrors } from './AlertErrors'
-import { Link } from '../routes'
 import { PrintButton } from './PrintButton'
 import { ShareButton } from './ShareButton'
 import { FavoriteButton } from './FavoriteButton'
@@ -33,9 +30,8 @@ import { AddNote } from './AddNote'
 const SITE_URL = get(getConfig(), 'publicRuntimeConfig.www.url', '')
 
 export const RecipeNav = ({ route }: { route: string }) => {
-  const { recipe, viewingVersion, explicitVersionId, notes } = useContext(
-    RecipeContext
-  )
+  const { recipe, viewingVersion, explicitVersionId, notes } =
+    useContext(RecipeContext)
   const noteCount = notes.length
   const baseURL = `/${recipe.owner.username}/${recipe.slug}`
   const versionURL = explicitVersionId
@@ -97,7 +93,7 @@ export const RecipeNav = ({ route }: { route: string }) => {
 
 const ActionMenu = ({
   recipe,
-  effectiveVersionId
+  effectiveVersionId,
 }: {
   recipe: RecipeJSON
   effectiveVersionId: number
@@ -174,7 +170,7 @@ const DeleteModal = ({
   recipe,
   isOpen,
   toggle,
-  close
+  close,
 }: {
   recipe: RecipeJSON
   isOpen: boolean
@@ -217,7 +213,7 @@ const AttributionModal = ({
   recipe,
   isOpen,
   toggle,
-  close
+  close,
 }: {
   recipe: RecipeJSON
   isOpen: boolean
@@ -234,7 +230,7 @@ const AttributionModal = ({
       source_url,
       source_title,
       source_author,
-      source_isbn
+      source_isbn,
     }
     setErrors([])
     try {
@@ -297,7 +293,7 @@ const RenameModal = ({
   recipe,
   isOpen,
   toggle,
-  close
+  close,
 }: {
   recipe: RecipeJSON
   isOpen: boolean
@@ -363,7 +359,7 @@ const NoteModal = ({
   versionId,
   isOpen,
   toggle,
-  close
+  close,
 }: {
   recipeId: number
   versionId: number

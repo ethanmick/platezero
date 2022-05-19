@@ -1,6 +1,5 @@
 import React from 'react'
 import * as _ from 'lodash'
-import { PreheatJSON } from '../models'
 import { Preheats } from './Preheats'
 import { Blankslate } from './Blankslate'
 import { LivePreviewEditor } from './LivePreviewEditor'

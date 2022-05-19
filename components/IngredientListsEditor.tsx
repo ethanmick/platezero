@@ -2,7 +2,6 @@ import React from 'react'
 import * as _ from 'lodash'
 import Fraction from 'fraction.js'
 
-import { IngredientListJSON, IngredientLineJSON } from '../models'
 import { IngredientLists } from './IngredientLists'
 import { parseIngredient } from 'ingredient-parser'
 import { changesBetween } from '../common/changes'
@@ -81,7 +80,7 @@ function ingredientListToText(list: IngredientListJSON): string {
 
 function amount({
   quantity_numerator,
-  quantity_denominator
+  quantity_denominator,
 }: IngredientLineJSON): string | undefined {
   if (!quantity_numerator || !quantity_denominator) {
     return undefined
@@ -101,7 +100,7 @@ function ingredientLineToText(line: IngredientLineJSON): string {
         line.unit,
         line.name,
         line.preparation ? `-- ${line.preparation}` : undefined,
-        line.optional ? OPTIONAL : undefined
+        line.optional ? OPTIONAL : undefined,
       ],
       _.isUndefined
     ),

@@ -1,7 +1,6 @@
 import React from 'react'
 import * as _ from 'lodash'
 
-import { ProcedureListJSON, ProcedureLineJSON } from '../models'
 import { ProcedureLists } from './ProcedureLists'
 import { Blankslate } from './Blankslate'
 import { changesBetween } from '../common/changes'
@@ -142,7 +141,7 @@ export function parseProcedureLists(text: string): ProcedureListJSON[] {
       section.lines.push({
         text: line,
         title: undefined,
-        image_url: undefined
+        image_url: undefined,
       })
 
       return acc

@@ -4,12 +4,10 @@ import { Note } from './Note'
 import { Blankslate } from './Blankslate'
 import { AddNote } from './AddNote'
 import { IfLoggedIn } from './IfLoggedIn'
-import { NoteJSON, RecipeJSON } from '../models'
-import { RecipeContext } from '../context/RecipeContext'
 
 export const RecipeNotes = ({
   currentVersionId,
-  recipe
+  recipe,
 }: {
   currentVersionId: number
   recipe: RecipeJSON

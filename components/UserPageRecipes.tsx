@@ -4,12 +4,10 @@ import React, { useEffect, useState } from 'react'
 import { Button, Col, Row } from 'reactstrap'
 import { api } from '../common/http'
 import { useDebounce } from '../hooks/useDebounce'
-import { RecipeJSON } from '../models'
-import { Router } from '../routes'
 import { RecipeList } from './RecipeList'
 import {
   RecipeListBlankslate,
-  RecipeListNoSearchResults
+  RecipeListNoSearchResults,
 } from './RecipeListBlankslate'
 import { Search } from './Search'
 import { SortRecipes } from './Sort'
@@ -19,7 +17,7 @@ export const UserPageRecipes = ({
   initialSort,
   initialRecipes,
   username,
-  baseURL
+  baseURL,
 }: {
   initialQuery?: string
   initialSort?: string
@@ -61,7 +59,7 @@ export const UserPageRecipes = ({
         await api.getRecipes({
           username: username,
           q: debouncedQueryString.q,
-          sort: debouncedQueryString.sort
+          sort: debouncedQueryString.sort,
         })
       )
     }

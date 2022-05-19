@@ -10,10 +10,9 @@ import {
   ModalFooter,
   ModalHeader,
   Row,
-  Spinner
+  Spinner,
 } from 'reactstrap'
-import { api, getErrorMessages } from '../common/http'
-import { UserJSON } from '../models'
+import { api } from '../common/http'
 import { AlertErrors } from './AlertErrors'
 import { EditableImage } from './EditableImage'
 import { IfLoggedIn } from './IfLoggedIn'

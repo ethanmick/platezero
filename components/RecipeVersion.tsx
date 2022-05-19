@@ -3,7 +3,6 @@ import * as _ from 'lodash'
 import { Row, Col, CardGroup, Card } from 'reactstrap'
 import { IngredientLists } from './IngredientLists'
 import { ProcedureLists } from './ProcedureLists'
-import { RecipeVersionJSON } from '../models'
 import { toHoursAndMinutes } from '../common/time'
 
 const formatDuration = (seconds: number) => {

@@ -1,10 +1,9 @@
 import * as _ from 'lodash'
-import { UserJSON } from '../models'
 
-export const getName = (user: UserJSON): string =>
+export const getName = (user: any): string =>
   user.name ? user.name : user.username
 
-export const normalize = (x) => {
+export const normalize = (x: any): any => {
   if (_.isArray(x)) {
     return _.map(x, normalize)
   }

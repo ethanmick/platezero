@@ -1,7 +1,5 @@
 import React from 'react'
 import { ListGroup, ListGroupItem } from 'reactstrap'
-import { RecipeJSON } from '../models'
-import { Link } from '../routes'
 import { Image } from './Image'
 
 export interface RecipesProps {

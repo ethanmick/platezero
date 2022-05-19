@@ -12,21 +12,19 @@ import {
   DropdownMenu,
   DropdownItem,
   Tooltip,
-  Button
+  Button,
 } from 'reactstrap'
 import { Markdown } from './Markdown'
 import { Timestamp } from './Timestamp'
 import { IfLoggedIn } from './IfLoggedIn'
-import { NoteJSON } from '../models'
 import { getName } from '../common/model-helpers'
-import { Link } from '../routes'
 import { api } from '../common/http'
 
 export const Note = ({
   note,
   versionLink,
   onDelete,
-  onChange
+  onChange,
 }: {
   note: NoteJSON
   versionLink: string
