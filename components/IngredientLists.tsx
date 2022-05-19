@@ -1,6 +1,5 @@
 import React from 'react'
 
-import { IngredientListJSON, IngredientLineJSON } from '../models'
 import { Amount } from './Amount'
 import { MarkdownInline } from './Markdown'
 

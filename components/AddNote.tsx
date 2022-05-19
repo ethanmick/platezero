@@ -1,42 +1,41 @@
 import React, { useState } from 'react'
 import { FormGroup, Label, Input, FormText, Button } from 'reactstrap'
 import TextareaAutosize from 'react-textarea-autosize'
-import { api, getErrorMessages } from '../common/http'
 import { AlertErrors } from './AlertErrors'
-import { NoteJSON } from '../models'
 
 export const AddNote = ({
   recipeId,
   currentVersionId,
-  onCreate
+  onCreate,
 }: {
   recipeId: number
   currentVersionId: number
-  onCreate?: (note: NoteJSON) => any
+  onCreate?: (note: any) => any
 }) => {
   const [isPinned, setPinned] = useState(false)
   const [text, setText] = useState('')
   const [isWorking, setWorking] = useState(false)
   const [errors, setErrors] = useState([])
 
-  const createNote = async (e) => {
+  const createNote = async (e: any) => {
     e.preventDefault()
     setWorking(true)
     setErrors([])
     try {
-      const note = await api.createNote({
-        pinned: isPinned,
-        text,
-        recipe_id: recipeId,
-        recipe_version_id: currentVersionId
-      })
+      // const note = await api.createNote({
+      //   pinned: isPinned,
+      //   text,
+      //   recipe_id: recipeId,
+      //   recipe_version_id: currentVersionId,
+      // })
+      const note = {}
       if (typeof onCreate === 'function') {
         onCreate(note)
       }
       setText('')
       setPinned(false)
     } catch (err) {
-      setErrors(getErrorMessages(err))
+      // setErrors(getErrorMessages(err))
     }
     setWorking(false)
     return false

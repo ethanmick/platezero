@@ -6,11 +6,11 @@ import {
   ModalBody,
   ModalFooter,
   ModalHeader,
-  Spinner
+  Spinner,
 } from 'reactstrap'
 import { Dropzone } from './Dropzone'
 import { AlertErrors } from './AlertErrors'
-import { api, getErrorMessages } from '../common'
+import { api } from '../common'
 
 interface Props {
   hasExisting: boolean

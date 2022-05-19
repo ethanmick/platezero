@@ -1,14 +1,13 @@
 import React, { useContext } from 'react'
 import { Button, Container, Navbar } from 'reactstrap'
 import { UserContext } from '../context/UserContext'
-import { Router } from '../routes'
 import { FooterLinks } from './Footer'
 
 export type CloseHandler = () => any
 
 export const MobileMenu = ({
   isOpen,
-  close
+  close,
 }: {
   isOpen: boolean
   close: CloseHandler
@@ -19,12 +18,14 @@ export const MobileMenu = ({
   }
   const NavRoutes = [
     { name: 'Recipes', route: 'user', params: { username: user.username } },
-    { name: 'Add Recipe', route: 'new-recipe' }
+    { name: 'Add Recipe', route: 'new-recipe' },
   ]
-  const route = (route: string, params: any = {}) => () => {
-    close()
-    Router.pushRoute(route, params)
-  }
+  const route =
+    (route: string, params: any = {}) =>
+    () => {
+      close()
+      Router.pushRoute(route, params)
+    }
   return (
     <div className="mobile menu">
       <Navbar>

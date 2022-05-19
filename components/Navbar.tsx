@@ -1,8 +1,6 @@
 import React, { useContext } from 'react'
 import { Button, Container, Nav, Navbar as RsNavbar, NavItem } from 'reactstrap'
 import { UserContext } from '../context/UserContext'
-import { UserJSON } from '../models'
-import { Link } from '../routes'
 import { ProfilePicture } from './ProfilePicture'
 
 export interface NavbarProps {

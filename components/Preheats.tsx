@@ -1,6 +1,5 @@
 import React from 'react'
 import * as _ from 'lodash'
-import { PreheatJSON } from '../models'
 
 export const Preheats = ({ preheats }: { preheats: PreheatJSON[] }) => {
   if (_.size(preheats) === 0) {

@@ -2,8 +2,6 @@ import React from 'react'
 import { Col } from 'reactstrap'
 import parseUrl from 'url-parse'
 import { getName } from '../common/model-helpers'
-import { RecipeJSON } from '../models'
-import { Link } from '../routes'
 import { Image } from './Image'
 
 const RecipeHeaderNoImage = ({ recipe }: { recipe: RecipeJSON }) => {
@@ -23,7 +21,7 @@ const RecipeHeaderNoImage = ({ recipe }: { recipe: RecipeJSON }) => {
 
 const RecipeHeaderImage = ({
   recipe,
-  condensed
+  condensed,
 }: {
   recipe: RecipeJSON
   condensed: boolean
@@ -47,7 +45,7 @@ const RecipeHeaderImage = ({
           className="position-absolute text-white w-100 p-2 pt-5"
           style={{
             bottom: 0,
-            background: 'linear-gradient(transparent, rgba(0,0,0,.70))'
+            background: 'linear-gradient(transparent, rgba(0,0,0,.70))',
           }}
         >
           <h1 className="m-0">{title}</h1>
@@ -77,7 +75,7 @@ const RecipeHeaderImage = ({
 
 export const RecipeHeader = ({
   recipe,
-  condensed
+  condensed,
 }: {
   recipe: RecipeJSON
   condensed: boolean
@@ -97,7 +95,7 @@ export const RecipeHeader = ({
 
 const Source = ({
   recipe,
-  className
+  className,
 }: {
   recipe: RecipeJSON
   className?: string

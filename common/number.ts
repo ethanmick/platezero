@@ -1,5 +1,5 @@
 export function maybeNumber(
-  x: number | string | undefined
+  x: number | string | null | undefined
 ): number | undefined {
   if (!x) {
     return undefined

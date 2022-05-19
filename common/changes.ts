@@ -4,9 +4,9 @@ import { normalize } from './model-helpers'
 export function changesBetween<
   T extends { id?: number; name?: string; lines: any[] }
 >(orig: T[], curr: T[]): T[] {
-  const usedSectionIds = {}
+  const usedSectionIds: any = {}
   const allLines = _.flatten(_.map(orig, (section) => section.lines))
-  const usedLineIds = {}
+  const usedLineIds: any = {}
   return normalize(
     _.map(curr, (currSection) => {
       const lines = _.map(currSection.lines, (currLine) => {
@@ -22,7 +22,7 @@ export function changesBetween<
         }
         return {
           ...currLine,
-          id: origLine ? origLine.id : undefined
+          id: origLine ? origLine.id : undefined,
         }
       })
       const origSection = _.find(
@@ -40,7 +40,7 @@ export function changesBetween<
       }
       return {
         ...currSection,
-        lines
+        lines,
       }
     })
   )

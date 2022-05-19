@@ -13,7 +13,7 @@ import { useState, useEffect } from 'react'
 //
 // With this approach, even if `search` is updated each time the user types a
 // key, the API call will only be run at most every 500ms.
-export function useDebounce(val, delay: number) {
+export function useDebounce(val: any, delay: number) {
   const [debounced, setDebounced] = useState(val)
   useEffect(() => {
     const handler = setTimeout(() => {

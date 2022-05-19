@@ -2,8 +2,6 @@ import React, { useReducer } from 'react'
 import { Row, Col } from 'reactstrap'
 import * as _ from 'lodash'
 import { Head, Layout, RecipeHeader, RecipeNav } from '../components'
-import { RecipeContext } from '../context/RecipeContext'
-import { RecipeJSON, RecipeVersionJSON, NoteJSON } from '../models'
 import ErrorPage from '../pages/_error'
 import { maybeNumber } from '../common/number'
 import { api } from '../common/http'
@@ -11,7 +9,7 @@ import { api } from '../common/http'
 enum NoteAction {
   CREATE,
   UPDATE,
-  DELETE
+  DELETE,
 }
 function notesReducer(state, action) {
   switch (action.type) {
@@ -43,7 +41,7 @@ export interface RecipeLayoutProps {
 export const fetchRecipeLayoutProps = async ({
   pathname,
   query,
-  res
+  res,
 }): Promise<RecipeLayoutProps> => {
   try {
     const { username, slug, versionId } = query
@@ -67,7 +65,7 @@ export const fetchRecipeLayoutProps = async ({
         slug,
         maybeNumber(versionId) || masterVersionId
       ),
-      notes: await api.getRecipeNotes(username, slug)
+      notes: await api.getRecipeNotes(username, slug),
     }
   } catch (err) {
     const statusCode = err.statusCode || 500
@@ -87,7 +85,7 @@ export const RecipeLayout = ({
   notes: initialNotes,
   masterVersionId,
   explicitVersionId,
-  viewingVersion
+  viewingVersion,
 }: RecipeLayoutProps) => {
   const { title, description, image_url, html_url } = recipe
   const [notes, dispatch] = useReducer(notesReducer, initialNotes)
@@ -114,7 +112,7 @@ export const RecipeLayout = ({
           removeNote: (noteId: number) =>
             dispatch({ type: NoteAction.DELETE, noteId }),
           editNote: (note: NoteJSON) =>
-            dispatch({ type: NoteAction.UPDATE, note })
+            dispatch({ type: NoteAction.UPDATE, note }),
         }}
       >
         <Row className="position-relative">
