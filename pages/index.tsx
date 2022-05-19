@@ -74,10 +74,7 @@ export default class Index extends Component {
         <Container>
           <Row className="my-5">
             <Col xs="12" className="text-center">
-              <img
-                className="w-100 mb-3"
-                src="https://static.platezero.com/assets/devices.jpg"
-              />
+              <img className="w-100 mb-3" src="/img/devices.jpg" />
               <h2 className="mt-3">All your recipes in one place.</h2>
               <p className="lead">
                 Import from <em>anywhere</em>. Websites, cookbooks, recipe
@@ -92,7 +89,7 @@ export default class Index extends Component {
               <Col xs="12" md="6">
                 <img
                   className="w-100 rounded shadow-sm"
-                  src="https://static.platezero.com/assets/avocado.jpg"
+                  src="/img/avocado.jpg"
                 />
               </Col>
               <Col
@@ -117,10 +114,7 @@ export default class Index extends Component {
         <Container>
           <Row className="py-5">
             <Col xs="12" md={{ size: 6, order: 12 }} className="text-center">
-              <img
-                className="w-75"
-                src="https://static.platezero.com/assets/sprinkles.jpg"
-              />
+              <img className="w-75" src="/img/sprinkles.jpg" />
             </Col>
             <Col
               xs="12"
@@ -174,7 +168,7 @@ export default class Index extends Component {
         <style jsx>{`
           .hero-image {
             height: 80vh;
-            background-image: url(https://static.platezero.com/assets/fruit-cuttings-bright.jpg);
+            background-image: url(/img/fruit-cuttings-bright.jpg);
             background-repeat: no-repeat;
             background-position-y: 50%;
             background-size: cover;
