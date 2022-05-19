@@ -1,4 +1,20 @@
-# [PlateZero](https://platezero.com)
+# PlateZero
+
+## Development
+
+### Database
+
+Start the database:
+
+```bash
+make db.run
+```
+
+This uses a regular Postgres image.
+
+```bash
+npx prisma generate # generate client
+```
 
 - `/`: Shows Users/Recipes
 - `/login`: form to accept (email or username) and password
