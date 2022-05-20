@@ -4,10 +4,15 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "generate": "graphql-codegen",
     "test": "jest"
   },
   "dependencies": {
     "@apollo/client": "3.6.4",
+    "@graphql-codegen/cli": "^2.6.2",
+    "@graphql-codegen/typed-document-node": "^2.2.11",
+    "@graphql-codegen/typescript": "^2.4.11",
+    "@graphql-codegen/typescript-operations": "^2.4.0",
     "@next-auth/prisma-adapter": "1.0.3",
     "@prisma/client": "3.14.0",
     "apollo-server-micro": "^3.7.0",
