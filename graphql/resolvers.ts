@@ -6,7 +6,7 @@ export const resolvers = {
       console.log('GET RECIPES')
       return ctx.prisma.recipe.findMany({
         where: {
-          userId: ctx.user.id,
+          userId: ctx.user?.id,
         },
       })
     },

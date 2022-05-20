@@ -4,11 +4,13 @@ import { NextApiRequest } from 'next'
 import { getSession } from 'next-auth/react'
 import prisma from '../lib/prisma'
 
+type User = {
+  id: number
+}
+
 export type Context = {
   prisma: PrismaClient
-  user: {
-    id: number
-  }
+  user?: User
 }
 
 export async function createContext({
@@ -16,10 +18,11 @@ export async function createContext({
 }: {
   req: NextApiRequest
 }): Promise<Context> {
-  const { user } = (await getSession({ req })) as any
-  console.log('Graph QL Session data', user)
+  console.log('Create context')
+  const data = await getSession({ req })
+  console.log('Graph QL Session data', data)
   return {
     prisma,
-    user,
+    user: data?.user,
   }
 }
