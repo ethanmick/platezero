@@ -64,7 +64,7 @@ model Recipe {
   title    String
   image    String?
   source   String?
-  duration Int // in seconds
+  duration Int? // in seconds
   yields   String?
 
   userId Int

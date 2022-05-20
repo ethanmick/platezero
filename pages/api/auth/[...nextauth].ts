@@ -1,33 +1,81 @@
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import prisma from 'lib/prisma'
 import NextAuth from 'next-auth'
-import EmailProvider from 'next-auth/providers/email'
-import nodemailer from 'nodemailer'
+import CredentialsProvider from 'next-auth/providers/credentials'
 
 export default NextAuth({
   adapter: PrismaAdapter(prisma),
+  pages: {
+    // signIn: '/login',
+  },
+  session: {
+    strategy: 'jwt',
+  },
   providers: [
-    EmailProvider({
-      server: process.env.EMAIL_SERVER,
-      from: process.env.EMAIL_FROM,
-      sendVerificationRequest: async ({
-        identifier: email,
-        url,
-        provider: { server, from },
-      }) => {
-        console.log('Email', email, url, server, from)
-        const { host } = new URL(url)
-        const transport = nodemailer.createTransport(server)
-        await transport.sendMail({
-          to: email,
-          from,
-          subject: `Sign in to ${host}`,
-          text: text({ url, host }),
-          html: html({ url, host, email }),
-        })
+    CredentialsProvider({
+      // The name to display on the sign in form (e.g. "Sign in with...")
+      name: 'Credentials',
+      // The credentials is used to generate a suitable form on the sign in page.
+      // You can specify whatever fields you are expecting to be submitted.
+      // e.g. domain, username, password, 2FA token, etc.
+      // You can pass any HTML attribute to the <input> tag through the object.
+      credentials: {
+        username: { label: 'Username', type: 'text', placeholder: 'username' },
+        password: { label: 'Password', type: 'password' },
+      },
+      async authorize(credentials, req) {
+        console.log('Authorize', credentials)
+        // Add logic here to look up the user from the credentials supplied
+        const user = { id: 1, username: 'em', email: 'ethan@ethanmick.com' }
+
+        if (user) {
+          // Any object returned will be saved in `user` property of the JWT
+          return user
+        } else {
+          // If you return null then an error will be displayed advising the user to check their details.
+          return null
+
+          // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
+        }
       },
     }),
+    // EmailProvider({
+    //   server: process.env.EMAIL_SERVER,
+    //   from: process.env.EMAIL_FROM,
+    //   sendVerificationRequest: async ({
+    //     identifier: email,
+    //     url,
+    //     provider: { server, from },
+    //   }) => {
+    //     console.log('Email', email, url, server, from)
+    //     const { host } = new URL(url)
+    //     const transport = nodemailer.createTransport(server)
+    //     await transport.sendMail({
+    //       to: email,
+    //       from,
+    //       subject: `Sign in to ${host}`,
+    //       text: text({ url, host }),
+    //       html: html({ url, host, email }),
+    //     })
+    //   },
+    // }),
   ],
+  callbacks: {
+    async session({ session, token, user }) {
+      console.log('CB session', session, token, user)
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: parseInt(token.sub || '', 10),
+        },
+      }
+    },
+    async jwt({ token, user, account, profile, isNewUser }) {
+      console.log('CB jwt', token, user, account, profile, isNewUser)
+      return token
+    },
+  },
 })
 
 // Email HTML body
