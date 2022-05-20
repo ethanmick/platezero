@@ -1,11 +1,12 @@
 import { ApolloClient, gql, InMemoryCache } from '@apollo/client'
+import { RecipesQuery } from 'lib/generated'
 import type { GetServerSidePropsContext, NextPage } from 'next'
 import { InferGetServerSidePropsType } from 'next'
 import { getToken } from 'next-auth/jwt'
 import { useSession } from 'next-auth/react'
 
 const query = gql`
-  query {
+  query Recipes {
     recipes {
       slug
       title
@@ -15,14 +16,21 @@ const query = gql`
 
 type Props = InferGetServerSidePropsType<typeof getServerSideProps>
 
-const UserPage: NextPage<Props> = (props: Props) => {
+const UserPage: NextPage<Props> = ({ recipes }: Props) => {
   const { data: user } = useSession()
   console.log('User', user)
 
   // const { data, loading, error } = useQuery(query)
   // console.log('DATA', data, error)
 
-  return <h1 className="text-sm">user page</h1>
+  return (
+    <>
+      <h1 className="text-sm">user page</h1>
+      {recipes.map((r) => (
+        <div>{r.title}</div>
+      ))}
+    </>
+  )
 }
 
 export default UserPage
@@ -41,7 +49,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
       },
     })
 
-    const { data } = await apolloClient.query({ query })
+    const { data } = await apolloClient.query<RecipesQuery>({ query })
     console.log(' DID IT WORKKKKK Server Side props', data)
 
     return {
@@ -53,6 +61,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     console.error(err)
     return {
       props: {
+        recipes: [],
         error: err.message,
       },
     }
