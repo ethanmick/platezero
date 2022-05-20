@@ -27,7 +27,7 @@ const UserPage: NextPage<Props> = ({ recipes }: Props) => {
     <>
       <h1 className="text-sm">user page</h1>
       {recipes.map((r) => (
-        <div>{r.title}</div>
+        <div key={r.slug}>{r.title}</div>
       ))}
     </>
   )
