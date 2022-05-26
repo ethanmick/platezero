@@ -70,22 +70,24 @@ model Recipe {
   userId Int
   user   User @relation(fields: [userId], references: [id])
 
-  Ingredients Ingredient[]
-  Procedures  Procedure[]
-  Preheat     Preheat[]
+  Ingredients  Ingredient[]
+  Instructions Instruction[]
+  Preheat      Preheat[]
   @@unique([userId, slug])
 }
 
 model Ingredient {
-  id       Int     @id @default(autoincrement())
-  name     String  @unique
-  amount   String?
-  unit     String?
-  recipeId Int
-  recipe   Recipe  @relation(fields: [recipeId], references: [id])
+  id                  Int     @id @default(autoincrement())
+  name                String  @unique
+  quantityNumerator   Int
+  quantityDenominator Int
+  preparation         String?
+  unit                String?
+  recipeId            Int
+  recipe              Recipe  @relation(fields: [recipeId], references: [id])
 }
 
-model Procedure {
+model Instruction {
   id       Int    @id @default(autoincrement())
   text     String @unique
   recipeId Int
