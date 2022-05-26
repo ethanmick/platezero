@@ -5,6 +5,10 @@ export const typeDefs = gql`
     recipes: [Recipe!]!
   }
 
+  type Mutation {
+    addRecipe(url: String!): Recipe
+  }
+
   type Recipe {
     id: Int!
     slug: String!
@@ -13,5 +17,19 @@ export const typeDefs = gql`
     source: String
     duration: Int
     yields: String
+    ingredients: [Ingredient!]!
+    instructions: [Instruction!]!
+  }
+
+  type Ingredient {
+    name: String!
+    quantityNumerator: Int
+    quantityDenominator: Int
+    preparation: String
+    unit: String
+  }
+
+  type Instruction {
+    text: String!
   }
 `
