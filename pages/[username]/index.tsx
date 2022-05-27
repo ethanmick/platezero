@@ -4,6 +4,8 @@ import type { GetServerSidePropsContext, NextPage } from 'next'
 import { InferGetServerSidePropsType } from 'next'
 import { getToken } from 'next-auth/jwt'
 import { useSession } from 'next-auth/react'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 const query = gql`
   query Recipes {
@@ -18,16 +20,15 @@ type Props = InferGetServerSidePropsType<typeof getServerSideProps>
 
 const UserPage: NextPage<Props> = ({ recipes }: Props) => {
   const { data: user } = useSession()
-  console.log('User', user)
-
-  // const { data, loading, error } = useQuery(query)
-  // console.log('DATA', data, error)
-
+  const router = useRouter()
+  console.log('Recipes', recipes)
   return (
     <>
       <h1 className="text-sm">user page</h1>
       {recipes.map((r) => (
-        <div key={r.slug}>{r.title}</div>
+        <Link href={`${router.asPath}/${r.slug}`} key={r.slug}>
+          <a>{r.title}</a>
+        </Link>
       ))}
     </>
   )

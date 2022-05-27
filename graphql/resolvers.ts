@@ -1,4 +1,4 @@
-import { MutationAddRecipeArgs } from 'lib/generated'
+import { MutationAddRecipeArgs, RecipeQueryVariables } from 'lib/generated'
 import { parse } from 'lib/parse'
 import slugify from 'slugify'
 import { Context, ContextAuthUser } from './context'
@@ -19,6 +19,28 @@ export const resolvers = {
           userId: ctx.user?.id,
         },
       })
+    },
+    recipe: async (
+      _parent: never,
+      args: RecipeQueryVariables,
+      ctx: Context
+    ) => {
+      try {
+        const recipe = await ctx.prisma.recipe.findFirst({
+          where: {
+            user: {
+              username: args.username,
+            },
+            slug: args.slug,
+          },
+        })
+
+        console.log('RECIPE FETCH', recipe)
+
+        return recipe
+      } catch (err) {
+        console.error(err)
+      }
     },
   },
   Mutation: {

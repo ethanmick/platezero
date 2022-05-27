@@ -39,7 +39,15 @@ export type MutationAddRecipeArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  /** Fetch a single recipe by username and slug */
+  recipe: Recipe;
   recipes: Array<Recipe>;
+};
+
+
+export type QueryRecipeArgs = {
+  slug: Scalars['String'];
+  username: Scalars['String'];
 };
 
 export type Recipe = {
@@ -55,6 +63,14 @@ export type Recipe = {
   yields?: Maybe<Scalars['String']>;
 };
 
+export type RecipeQueryVariables = Exact<{
+  username: Scalars['String'];
+  slug: Scalars['String'];
+}>;
+
+
+export type RecipeQuery = { __typename?: 'Query', recipe: { __typename?: 'Recipe', title: string } };
+
 export type RecipesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -68,5 +84,6 @@ export type AddRecipeMutationVariables = Exact<{
 export type AddRecipeMutation = { __typename?: 'Mutation', addRecipe?: { __typename?: 'Recipe', slug: string } | null };
 
 
+export const RecipeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Recipe"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"username"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"slug"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"recipe"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"username"},"value":{"kind":"Variable","name":{"kind":"Name","value":"username"}}},{"kind":"Argument","name":{"kind":"Name","value":"slug"},"value":{"kind":"Variable","name":{"kind":"Name","value":"slug"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"title"}}]}}]}}]} as unknown as DocumentNode<RecipeQuery, RecipeQueryVariables>;
 export const RecipesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Recipes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"recipes"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"slug"}},{"kind":"Field","name":{"kind":"Name","value":"title"}}]}}]}}]} as unknown as DocumentNode<RecipesQuery, RecipesQueryVariables>;
 export const AddRecipeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"addRecipe"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"url"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"addRecipe"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"url"},"value":{"kind":"Variable","name":{"kind":"Name","value":"url"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"slug"}}]}}]}}]} as unknown as DocumentNode<AddRecipeMutation, AddRecipeMutationVariables>;
