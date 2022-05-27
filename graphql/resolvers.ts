@@ -20,25 +20,15 @@ export const resolvers = {
         },
       })
     },
-    recipe: async (
-      _parent: never,
-      args: RecipeQueryVariables,
-      ctx: Context
-    ) => {
-      try {
-        const recipe = await ctx.prisma.recipe.findFirst({
-          where: {
-            user: {
-              username: args.username,
-            },
-            slug: args.slug,
+    recipe: (_parent: never, args: RecipeQueryVariables, ctx: Context) => {
+      return ctx.prisma.recipe.findFirst({
+        where: {
+          user: {
+            username: args.username,
           },
-        })
-        console.log('Resolver.Recipe', recipe)
-        return recipe
-      } catch (err) {
-        console.error(err)
-      }
+          slug: args.slug,
+        },
+      })
     },
   },
   Recipe: {
@@ -62,7 +52,9 @@ export const resolvers = {
       const user = assertAuth(ctx?.user)
       const res = await fetch(args.url)
       const recipe = await parse(await res.text())
-      const slug = slugify(recipe.title)
+      const slug = slugify(recipe.title, {
+        lower: true,
+      })
       const created = await ctx.prisma.recipe.create({
         data: {
           title: recipe.title,
