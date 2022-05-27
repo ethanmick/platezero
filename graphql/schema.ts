@@ -3,6 +3,11 @@ import { gql } from 'apollo-server-micro'
 export const typeDefs = gql`
   type Query {
     recipes: [Recipe!]!
+
+    """
+    Fetch a single recipe by username and slug
+    """
+    recipe(username: String!, slug: String!): Recipe!
   }
 
   type Mutation {

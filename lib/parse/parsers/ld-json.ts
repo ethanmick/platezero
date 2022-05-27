@@ -42,8 +42,6 @@ export const parse = async (
     return null
   }
 
-  console.log('Parse LD JSON WTF:', json)
-
   return {
     title: json.name,
     ingredients: json.recipeIngredient
