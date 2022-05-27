@@ -1,12 +1,15 @@
 import * as cheerio from 'cheerio'
 import { parse as LDJSONParse } from './parsers/ld-json'
-import { RecipeParts } from './recipe'
+import { Recipe } from './recipe'
 
-export const parse = async (html: string): Promise<RecipeParts> => {
+export const parse = async (html: string): Promise<Recipe> => {
   const $ = cheerio.load(html)
   const recipe = await LDJSONParse($)
   if (!recipe) {
     throw new Error('failed to parse recipe')
   }
-  return recipe
+  if (!recipe.title || !recipe.ingredients || !recipe.instructions) {
+    throw new Error('invalid recipe')
+  }
+  return recipe as Recipe
 }

@@ -1,8 +1,13 @@
+import { MutationAddRecipeArgs } from 'lib/generated'
 import { parse } from 'lib/parse'
-import { Context } from './context'
+import slugify from 'slugify'
+import { Context, ContextAuthUser } from './context'
 
-type AddRecipe = {
-  url: string
+const assertAuth = (user: ContextAuthUser | undefined): ContextAuthUser => {
+  if (!user?.id) {
+    throw new Error('Unauthorized')
+  }
+  return user
 }
 
 export const resolvers = {
@@ -17,11 +22,34 @@ export const resolvers = {
     },
   },
   Mutation: {
-    addRecipe: async (_parent: never, args: AddRecipe, ctx: Context) => {
-      console.log('Add Recipe', args)
+    addRecipe: async (_: never, args: MutationAddRecipeArgs, ctx: Context) => {
+      const user = assertAuth(ctx?.user)
       const res = await fetch(args.url)
       const recipe = await parse(await res.text())
-      return recipe
+      const slug = slugify(recipe.title)
+      const created = await ctx.prisma.recipe.create({
+        data: {
+          title: recipe.title,
+          slug: slug,
+          userId: user.id,
+          ingredients: {
+            createMany: {
+              data: recipe.ingredients.map((ing) => ({
+                name: ing.name,
+                quantityNumerator: ing.quantity_numerator,
+                quantityDenominator: ing.quantity_denominator,
+                unit: ing.unit,
+                preparation: ing.preparation,
+                optional: ing.optional,
+              })),
+            },
+          },
+          instructions: {
+            create: recipe.instructions,
+          },
+        },
+      })
+      return created
     },
   },
 }

@@ -59,37 +59,37 @@ model Account {
 }
 
 model Recipe {
-  id       Int     @id @default(autoincrement())
-  slug     String  @unique
-  title    String
-  image    String?
-  source   String?
-  duration Int? // in seconds
-  yields   String?
+  id           Int           @id @default(autoincrement())
+  slug         String        @unique
+  title        String
+  image        String?
+  source       String?
+  duration     Int? // in seconds
+  yields       String?
+  userId       Int
+  user         User          @relation(fields: [userId], references: [id])
+  ingredients  Ingredient[]
+  instructions Instruction[]
+  preheats     Preheat[]
 
-  userId Int
-  user   User @relation(fields: [userId], references: [id])
-
-  Ingredients  Ingredient[]
-  Instructions Instruction[]
-  Preheat      Preheat[]
   @@unique([userId, slug])
 }
 
 model Ingredient {
   id                  Int     @id @default(autoincrement())
-  name                String  @unique
-  quantityNumerator   Int
-  quantityDenominator Int
+  name                String
+  quantityNumerator   Int?
+  quantityDenominator Int?
   preparation         String?
   unit                String?
+  optional            Boolean
   recipeId            Int
   recipe              Recipe  @relation(fields: [recipeId], references: [id])
 }
 
 model Instruction {
   id       Int    @id @default(autoincrement())
-  text     String @unique
+  text     String
   recipeId Int
   recipe   Recipe @relation(fields: [recipeId], references: [id])
 }
