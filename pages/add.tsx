@@ -25,7 +25,6 @@ const Add: NextPage = () => {
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    console.log(url)
 
     addRecipe({
       variables: {

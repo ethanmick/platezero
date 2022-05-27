@@ -15,6 +15,12 @@ const query = gql`
   query Recipe($username: String!, $slug: String!) {
     recipe(username: $username, slug: $slug) {
       title
+      ingredients {
+        name
+      }
+      instructions {
+        text
+      }
     }
   }
 `
@@ -22,6 +28,7 @@ const query = gql`
 type Props = InferGetServerSidePropsType<typeof getServerSideProps>
 
 const RecipePage: NextPage<Props> = ({ recipe }) => {
+  console.dir(recipe, { depth: null })
   return (
     <div>
       <h1 className="text-sm">recipe page</h1>
@@ -57,7 +64,6 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
       },
     })
     console.dir(data, { depth: null })
-    console.log(' DID IT WORKKKKK Server Side props', data)
 
     return {
       props: {

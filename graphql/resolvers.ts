@@ -1,3 +1,4 @@
+import { Recipe } from '@prisma/client'
 import { MutationAddRecipeArgs, RecipeQueryVariables } from 'lib/generated'
 import { parse } from 'lib/parse'
 import slugify from 'slugify'
@@ -13,7 +14,6 @@ const assertAuth = (user: ContextAuthUser | undefined): ContextAuthUser => {
 export const resolvers = {
   Query: {
     recipes: (_parent: never, _args: any, ctx: Context) => {
-      console.log('GET RECIPES')
       return ctx.prisma.recipe.findMany({
         where: {
           userId: ctx.user?.id,
@@ -34,13 +34,27 @@ export const resolvers = {
             slug: args.slug,
           },
         })
-
-        console.log('RECIPE FETCH', recipe)
-
+        console.log('Resolver.Recipe', recipe)
         return recipe
       } catch (err) {
         console.error(err)
       }
+    },
+  },
+  Recipe: {
+    ingredients: (recipe: Recipe, _args: never, ctx: Context) => {
+      return ctx.prisma.ingredient.findMany({
+        where: {
+          recipeId: recipe.id,
+        },
+      })
+    },
+    instructions: (recipe: Recipe, _args: never, ctx: Context) => {
+      return ctx.prisma.instruction.findMany({
+        where: {
+          recipeId: recipe.id,
+        },
+      })
     },
   },
   Mutation: {

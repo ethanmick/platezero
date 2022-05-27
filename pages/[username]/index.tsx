@@ -12,6 +12,9 @@ const query = gql`
     recipes {
       slug
       title
+      ingredients {
+        name
+      }
     }
   }
 `
@@ -19,7 +22,6 @@ const query = gql`
 type Props = InferGetServerSidePropsType<typeof getServerSideProps>
 
 const UserPage: NextPage<Props> = ({ recipes }: Props) => {
-  const { data: user } = useSession()
   const router = useRouter()
   console.log('Recipes', recipes)
   return (
