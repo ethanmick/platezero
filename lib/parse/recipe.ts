@@ -4,6 +4,7 @@ type ProcedureParts = { text: string }
 
 export type Recipe = {
   title: string
+  image?: string
   ingredients: Ingredient[]
   instructions: ProcedureParts[]
 }
