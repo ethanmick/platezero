@@ -11,7 +11,16 @@ export const typeDefs = gql`
   }
 
   type Mutation {
+    """
+    Register a new user with a username and password.
+    """
+    register(username: String!, password: String!): User!
+
     addRecipe(url: String!): Recipe
+  }
+
+  type User {
+    username: String!
   }
 
   type Recipe {

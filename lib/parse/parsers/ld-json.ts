@@ -44,6 +44,7 @@ export const parse = async (
 
   return {
     title: json.name,
+    image: json.image,
     ingredients: json.recipeIngredient
       ?.map(parseIngredient)
       .filter((i) => i.name),

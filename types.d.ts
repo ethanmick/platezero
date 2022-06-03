@@ -11,12 +11,6 @@ declare module 'next-auth' {
   }
 }
 
-// declare module 'next' {
-//   type AuthPage = NextPage & {
-//     auth?: boolean
-//   }
-// }
-
 declare global {
   var prisma: PrismaClient | undefined
 }
