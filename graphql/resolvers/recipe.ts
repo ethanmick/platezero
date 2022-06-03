@@ -1,4 +1,5 @@
 import { Recipe } from '@prisma/client'
+import * as duration from 'duration-fns'
 import ImageKit from 'imagekit'
 import { MutationAddRecipeArgs, RecipeQueryVariables } from 'lib/generated'
 import { parse } from 'lib/parse'
@@ -69,6 +70,7 @@ export const addRecipe: FieldResolver<never, MutationAddRecipeArgs> = async (
   const user = requireUser(ctx?.user)
   const res = await fetch(args.url)
   const recipe = await parse(await res.text())
+  recipe.source = args.url
   const slug = slugify(recipe.title, {
     lower: true,
   })
@@ -89,13 +91,16 @@ export const addRecipe: FieldResolver<never, MutationAddRecipeArgs> = async (
     })
     recipe.image = url
   }
-
+  const time = duration.parse(recipe.totalTime || '')
   const slugWithCount = count > 0 ? `${slug}-${count + 1}` : slug
   const created = await ctx.prisma.recipe.create({
     data: {
       title: recipe.title,
       slug: slugWithCount,
       image: recipe.image,
+      source: recipe.source,
+      yields: recipe.recipeYield ? `${recipe.recipeYield}` : undefined,
+      duration: duration.toSeconds(time),
       userId: user.id,
       ingredients: {
         createMany: {
