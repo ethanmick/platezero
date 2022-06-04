@@ -72,13 +72,8 @@ export const addRecipe: FieldResolver<never, MutationAddRecipeArgs> = async (
   const recipe = await parse(await res.text())
   recipe.source = args.url
   const slug = slugify(recipe.title, {
+    remove: /[\(\)]/,
     lower: true,
-  })
-
-  const count = await ctx.prisma.recipe.count({
-    where: {
-      slug,
-    },
   })
 
   if (recipe.image) {
@@ -92,32 +87,45 @@ export const addRecipe: FieldResolver<never, MutationAddRecipeArgs> = async (
     recipe.image = url
   }
   const time = duration.parse(recipe.totalTime || '')
-  const slugWithCount = count > 0 ? `${slug}-${count + 1}` : slug
-  const created = await ctx.prisma.recipe.create({
-    data: {
-      title: recipe.title,
-      slug: slugWithCount,
-      image: recipe.image,
-      source: recipe.source,
-      yields: recipe.recipeYield ? `${recipe.recipeYield}` : undefined,
-      duration: duration.toSeconds(time),
-      userId: user.id,
-      ingredients: {
-        createMany: {
-          data: recipe.ingredients.map((ing) => ({
-            name: ing.name,
-            quantityNumerator: ing.quantity_numerator,
-            quantityDenominator: ing.quantity_denominator,
-            unit: ing.unit,
-            preparation: ing.preparation,
-            optional: ing.optional,
-          })),
+
+  let count = 0
+  while (count < 100) {
+    const slugWithCount = count > 0 ? `${slug}-${count + 1}` : slug
+    try {
+      const created = await ctx.prisma.recipe.create({
+        data: {
+          title: recipe.title,
+          slug: slugWithCount,
+          image: recipe.image,
+          source: recipe.source,
+          yields: recipe.recipeYield ? `${recipe.recipeYield}` : undefined,
+          duration: duration.toSeconds(time),
+          userId: user.id,
+          ingredients: {
+            createMany: {
+              data: recipe.ingredients.map((ing) => ({
+                name: ing.name,
+                quantityNumerator: ing.quantity_numerator,
+                quantityDenominator: ing.quantity_denominator,
+                unit: ing.unit,
+                preparation: ing.preparation,
+                optional: ing.optional,
+              })),
+            },
+          },
+          instructions: {
+            create: recipe.instructions,
+          },
         },
-      },
-      instructions: {
-        create: recipe.instructions,
-      },
-    },
-  })
-  return created
+      })
+      return created
+    } catch (err: any) {
+      console.error(err)
+      if (err.code === 'P2002' && err.meta?.target?.includes('slug')) {
+        count++
+        continue
+      }
+      throw err
+    }
+  }
 }
