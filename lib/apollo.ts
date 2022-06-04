@@ -3,7 +3,7 @@ import { GetServerSidePropsContext } from 'next'
 import { getToken } from 'next-auth/jwt'
 
 const apolloClient = new ApolloClient({
-  uri: 'http://localhost:3000/api/graphql',
+  uri: process.env.NEXT_PUBLIC_ROOT_URL,
   cache: new InMemoryCache(),
   credentials: 'include',
 })
@@ -17,7 +17,7 @@ export const query = async <Query = any, Variables = any>(
 ) => {
   const token = await getToken({ req: ctx.req as any, raw: true })
   const apolloClient = new ApolloClient({
-    uri: `${process.env.ROOT_URL}/api/graphql`,
+    uri: `${process.env.NEXT_PUBLIC_ROOT_URL}/api/graphql`,
     cache: new InMemoryCache(),
     credentials: 'include',
     headers: {
