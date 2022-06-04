@@ -16,7 +16,15 @@ export const typeDefs = gql`
     """
     register(username: String!, password: String!): User!
 
+    """
+    Add a recipe from a URL to the user account.
+    """
     addRecipe(url: String!): Recipe
+
+    """
+    Parse a recipe without a user account.
+    """
+    parseRecipe(url: String!): Recipe
   }
 
   type User {
