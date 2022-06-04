@@ -134,6 +134,7 @@ describe.each([
       false,
     ],
   ],
+  ['1&frac12; teaspoons salt', [3, 2, 'tsp', 'salt', undefined, false]],
   // [
   //   '1&frac12; to 1&frac34; pounds chicken tenderloins or boneless, skinless chicken breasts',
   //   [3, 2, 'lb', 'chicken tenderloins or boneless', '', false],
