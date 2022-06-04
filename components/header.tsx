@@ -17,18 +17,20 @@ export const Header = () => {
     <header className="border-b">
       <div className="container px-2 mx-auto py-4 flex items-center">
         <Logo />
-        <nav className="ml-4">
-          <Link
-            href={{
-              pathname: Routes.User,
-              query: {
-                username: session?.user.name,
-              },
-            }}
-          >
-            <a>Your Recipes</a>
-          </Link>
-        </nav>
+        {session && (
+          <nav className="ml-4">
+            <Link
+              href={{
+                pathname: Routes.User,
+                query: {
+                  username: session?.user.name,
+                },
+              }}
+            >
+              <a>Your Recipes</a>
+            </Link>
+          </nav>
+        )}
         <span className="flex-grow" />
         <div className="flex gap-2">
           {session ? (

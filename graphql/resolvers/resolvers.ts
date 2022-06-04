@@ -1,4 +1,10 @@
-import { addRecipe, recipe, recipeResolver, recipes } from './recipe'
+import {
+  addRecipe,
+  parseRecipe,
+  recipe,
+  recipeResolver,
+  recipes,
+} from './recipe'
 import { register } from './user'
 
 export const resolvers = {
@@ -10,5 +16,6 @@ export const resolvers = {
   Mutation: {
     register,
     addRecipe,
+    parseRecipe,
   },
 }

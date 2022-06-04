@@ -1,7 +1,11 @@
-import { Recipe } from '@prisma/client'
 import * as duration from 'duration-fns'
 import ImageKit from 'imagekit'
-import { MutationAddRecipeArgs, RecipeQueryVariables } from 'lib/generated'
+import {
+  MutationAddRecipeArgs,
+  MutationParseRecipeArgs,
+  Recipe as RecipeGraphQL,
+  RecipeQueryVariables,
+} from 'lib/generated'
 import { parse } from 'lib/parse'
 import { parse as parsePath } from 'path'
 import slugify from 'slugify'
@@ -38,20 +42,24 @@ export const recipe: FieldResolver<never, RecipeQueryVariables> = (
   })
 }
 
-const ingredients: FieldResolver<Recipe, never> = (recipe, _, ctx) => {
-  return ctx.prisma.ingredient.findMany({
-    where: {
-      recipeId: recipe.id,
-    },
-  })
+const ingredients: FieldResolver<RecipeGraphQL> = (recipe, _, ctx) => {
+  return recipe.id
+    ? ctx.prisma.ingredient.findMany({
+        where: {
+          recipeId: recipe.id,
+        },
+      })
+    : Promise.resolve(recipe.ingredients)
 }
 
-const instructions: FieldResolver<Recipe, never> = (recipe, _, ctx) => {
-  return ctx.prisma.instruction.findMany({
-    where: {
-      recipeId: recipe.id,
-    },
-  })
+const instructions: FieldResolver<RecipeGraphQL> = (recipe, _, ctx) => {
+  return recipe.id
+    ? ctx.prisma.instruction.findMany({
+        where: {
+          recipeId: recipe.id,
+        },
+      })
+    : Promise.resolve(recipe.instructions)
 }
 
 export const recipeResolver = {
@@ -72,7 +80,7 @@ export const addRecipe: FieldResolver<never, MutationAddRecipeArgs> = async (
   const recipe = await parse(await res.text())
   recipe.source = args.url
   const slug = slugify(recipe.title, {
-    remove: /[\(\)]/,
+    remove: /[\(\)\$\&]/,
     lower: true,
   })
 
@@ -127,5 +135,68 @@ export const addRecipe: FieldResolver<never, MutationAddRecipeArgs> = async (
       }
       throw err
     }
+  }
+}
+
+export const parseRecipe: FieldResolver<
+  never,
+  MutationParseRecipeArgs
+> = async (_, { url }) => {
+  const res = await fetch(url)
+  const recipe = await parse(await res.text())
+  recipe.source = url
+
+  if (recipe.image) {
+    const file = recipe.image
+    const { ext } = parsePath(recipe.image)
+    const fileName = uuid() + ext
+    const { url } = await imagekit.upload({
+      file,
+      fileName,
+    })
+    recipe.image = url
+  }
+  const time = duration.parse(recipe.totalTime || '')
+
+  console.log('Parse recipe!', recipe)
+
+  console.log(
+    'OKAY WTF',
+
+    {
+      title: recipe.title,
+      slug: undefined,
+      image: recipe.image,
+      source: recipe.source,
+      yields: recipe.recipeYield ? `${recipe.recipeYield}` : undefined,
+      duration: duration.toSeconds(time),
+      ingredients: recipe.ingredients.map((ing) => ({
+        name: ing.name,
+        quantityNumerator: ing.quantity_numerator,
+        quantityDenominator: ing.quantity_denominator,
+        unit: ing.unit,
+        preparation: ing.preparation,
+        optional: ing.optional,
+      })),
+      instructions: recipe.instructions,
+    }
+  )
+
+  return {
+    title: recipe.title,
+    slug: undefined,
+    image: recipe.image,
+    source: recipe.source,
+    yields: recipe.recipeYield ? `${recipe.recipeYield}` : undefined,
+    duration: duration.toSeconds(time),
+    ingredients: recipe.ingredients.map((ing) => ({
+      name: ing.name,
+      quantityNumerator: ing.quantity_numerator,
+      quantityDenominator: ing.quantity_denominator,
+      unit: ing.unit,
+      preparation: ing.preparation,
+      optional: ing.optional,
+    })),
+    instructions: recipe.instructions,
   }
 }
