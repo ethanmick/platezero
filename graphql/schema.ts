@@ -41,6 +41,7 @@ export const typeDefs = gql`
     quantityDenominator: Int
     preparation: String
     unit: String
+    optional: Boolean
   }
 
   type Instruction {
