@@ -82,16 +82,16 @@ export type RecipeProps = {
 export const Recipe = ({ recipe }: RecipeProps) => {
   return (
     <>
-      <div className="flex">
+      <div className="flex flex-wrap">
         <img
-          className="w-full md:w-72 h-72 object-cover rounded-xl"
+          className="w-full md:w-72 h-72 object-cover rounded-xl mb-4"
           src={recipe.image || ''}
           alt={recipe.title}
         />
-        <div className="ml-4">
+        <div className="md:ml-4">
           <Title title={recipe.title} />
           {recipe.source && <Source source={recipe.source} />}
-          <div className="mt-6 flex gap-8">
+          <div className="mt-4 flex gap-8">
             {recipe.duration && recipe.duration > 0 && (
               <Time duration={recipe.duration} />
             )}
@@ -99,7 +99,7 @@ export const Recipe = ({ recipe }: RecipeProps) => {
           </div>
         </div>
       </div>
-      <div className="grid grid-cols-2 mt-8 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 mt-8 gap-8">
         <div>
           <h2 className="text-2xl font-semibold my-2">Ingredients</h2>
           <ul className="divide-y divide-neutral-100">
@@ -110,7 +110,7 @@ export const Recipe = ({ recipe }: RecipeProps) => {
         </div>
         <div>
           <h2 className="text-2xl font-semibold my-2">Instructions</h2>
-          <ol className="space-y-4 list-decimal">
+          <ol className="space-y-4 list-decimal pl-4">
             {recipe.instructions.map(({ text }, key) => (
               <li className="" key={key}>
                 {text}

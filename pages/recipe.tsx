@@ -109,11 +109,10 @@ const RecipePage: NextPage = () => {
     onError: console.error,
   })
 
-  console.log('recipe', recipe)
   return (
     <>
       <Header />
-      <Main className="max-w-screen-lg mt-8">
+      <Main className="max-w-screen-lg md:mt-8">
         {!recipe && (
           <ParseRecipeForm loading={loading} parseRecipe={parseRecipe} />
         )}
