@@ -60,6 +60,10 @@ const fractionMapping: { [key: string]: string } = {
   '&frac110;': '1/10',
 }
 
+const HTMLFractionCodes = Object.keys(fractionMapping).filter((k) =>
+  k.startsWith('&')
+)
+
 export const parseAmount = (input: string): FractionLike | null => {
   try {
     const s = input
@@ -158,7 +162,12 @@ const matchNumber = (s: string): [FractionLike | null, string] => {
   // 1. the numerator or whole number or decimal
   // 2. a unicode fraction
   // 3. a fraction using / or just the denominator from (1)
-  const p = /^(\s*\d*(\.\d+)?\s*([½⅓⅔¼¾⅖⅗⅘⅙⅚⅐⅛⅜⅝⅞⅑⅒]?)((\d*\s*)?\/\s*\d*)?)/gm
+  // 4. html fraction like 1&frac12;
+  const codes = HTMLFractionCodes.join('|')
+  const p = new RegExp(
+    `^(\\s*\\d*(\\.\\d+)?\\s*([½⅓⅔¼¾⅖⅗⅘⅙⅚⅐⅛⅜⅝⅞⅑⅒]?)((\\d*\\s*)?\\/\\s*\\d*)?(${codes})?)`,
+    'gm'
+  )
   const match = p.exec(s)
   if (match) {
     try {
@@ -213,7 +222,7 @@ export const parseIngredient = (s?: string): Ingredient => {
   if (!s) {
     return ing
   }
-  s = s?.trim()
+  s = s.trim()
   const [num, numRest] = matchNumber(s)
   if (num) {
     ing.quantity_numerator = num.n
