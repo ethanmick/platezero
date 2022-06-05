@@ -14,6 +14,7 @@ export const register: FieldResolver<
   return ctx.prisma.user.create({
     data: {
       username: args.username,
+      email: '',
       password,
     },
   })
