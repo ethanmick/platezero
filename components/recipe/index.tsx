@@ -1,8 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 import { ChartPieIcon, ClockIcon } from '@heroicons/react/outline'
-import { formatDuration } from 'date-fns'
 import Fraction from 'fraction.js'
 import { Recipe as RecipeModel } from 'lib/generated'
+import { Duration } from 'luxon'
 
 export const Title = ({ title }: { title: string }) => (
   <h1 className="text-2xl font-semibold">{title}</h1>
@@ -28,11 +28,11 @@ export const Source = ({ source }: { source: string }) => {
 }
 
 export const Time = ({ duration }: { duration: number }) => {
-  const dur = formatDuration({ seconds: duration })
+  const dur = Duration.fromMillis(duration * 1000).shiftTo('minutes')
   return (
     <div className="flex items-center">
       <ClockIcon className="h-6 w-6" />
-      <span className="ml-2">{dur}</span>
+      <span className="ml-2">{dur.toHuman()}</span>
     </div>
   )
 }
@@ -40,7 +40,7 @@ export const Time = ({ duration }: { duration: number }) => {
 export const Yield = ({ yields }: { yields: string }) => (
   <div className="flex items-center">
     <ChartPieIcon className="h-6 w-6" />
-    <span className="ml-2">{yields}</span>
+    <span className="ml-2">{yields} servings</span>
   </div>
 )
 
