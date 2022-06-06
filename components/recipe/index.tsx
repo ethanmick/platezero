@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import { ChartPieIcon, ClockIcon } from '@heroicons/react/outline'
-import { Recipe as RecipeModel } from 'lib/generated'
+import { Maybe } from 'graphql/jsutils/Maybe'
 import { Duration } from 'luxon'
 
 export const Title = ({ title }: { title: string }) => (
@@ -43,22 +43,32 @@ export const Yield = ({ yields }: { yields: string }) => (
   </div>
 )
 
-type IngredientProps = RecipeModel['ingredients'][number]
-
-export const Ingredient = ({ raw }: IngredientProps) => {
-  return <li className="py-2">{raw}</li>
+type IngredientProps = {
+  normalized: string
 }
 
-type InstructionProps = RecipeModel['instructions'][number]
-
-export const Instruction = ({ raw }: InstructionProps) => {
-  return <li className="py-2">{raw}</li>
+export const Ingredient = ({ normalized }: IngredientProps) => {
+  return <li className="py-2">{normalized}</li>
 }
 
-type ViewableRecipe = Omit<RecipeModel, 'slug' | 'id'>
+type InstructionProps = {
+  normalized: string
+}
+
+export const Instruction = ({ normalized }: InstructionProps) => {
+  return <li className="py-2">{normalized}</li>
+}
 
 export type RecipeProps = {
-  recipe: ViewableRecipe
+  recipe: {
+    duration?: Maybe<number>
+    image?: Maybe<string>
+    ingredients: IngredientProps[]
+    instructions: InstructionProps[]
+    source?: Maybe<string>
+    title: string
+    yields?: Maybe<string>
+  }
 }
 
 export const Recipe = ({ recipe }: RecipeProps) => {

@@ -24,10 +24,10 @@ const mutation = gql`
       duration
       yields
       ingredients {
-        raw
+        normalized
       }
       instructions {
-        raw
+        normalized
       }
     }
   }

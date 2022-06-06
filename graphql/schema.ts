@@ -45,11 +45,11 @@ export const typeDefs = gql`
 
   type Ingredient {
     raw: String!
-    normalized: String
+    normalized: String!
   }
 
   type Instruction {
     raw: String!
-    normalized: String
+    normalized: String!
   }
 `
