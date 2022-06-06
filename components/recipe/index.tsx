@@ -1,6 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
 import { ChartPieIcon, ClockIcon } from '@heroicons/react/outline'
-import Fraction from 'fraction.js'
 import { Recipe as RecipeModel } from 'lib/generated'
 import { Duration } from 'luxon'
 
@@ -44,33 +43,16 @@ export const Yield = ({ yields }: { yields: string }) => (
   </div>
 )
 
-type IngredientProps = {
-  name: string
-  quantityNumerator?: number | null
-  quantityDenominator?: number | null
-  preparation?: string | null
-  unit?: string | null
-  optional?: boolean | null
+type IngredientProps = RecipeModel['ingredients'][number]
+
+export const Ingredient = ({ raw }: IngredientProps) => {
+  return <li className="py-2">{raw}</li>
 }
 
-export const Ingredient = ({
-  name,
-  quantityDenominator,
-  quantityNumerator,
-  preparation,
-  unit,
-  optional,
-}: IngredientProps) => {
-  const quantity =
-    quantityNumerator && quantityDenominator
-      ? new Fraction(quantityNumerator, quantityDenominator)
-      : null
-  return (
-    <li className="py-2">
-      {quantity ? quantity.toFraction() : null} {unit} {name} {preparation}{' '}
-      {optional === true ? `(optional)` : null}
-    </li>
-  )
+type InstructionProps = RecipeModel['instructions'][number]
+
+export const Instruction = ({ raw }: InstructionProps) => {
+  return <li className="py-2">{raw}</li>
 }
 
 type ViewableRecipe = Omit<RecipeModel, 'slug' | 'id'>
@@ -110,11 +92,9 @@ export const Recipe = ({ recipe }: RecipeProps) => {
         </div>
         <div>
           <h2 className="text-2xl font-semibold my-2">Instructions</h2>
-          <ol className="space-y-4 list-decimal pl-4">
-            {recipe.instructions.map(({ text }, key) => (
-              <li className="" key={key}>
-                {text}
-              </li>
+          <ol className="list-decimal pl-4">
+            {recipe.instructions.map((inst, key) => (
+              <Instruction key={key} {...inst} />
             ))}
           </ol>
         </div>

@@ -24,15 +24,10 @@ const mutation = gql`
       duration
       yields
       ingredients {
-        name
-        quantityNumerator
-        quantityDenominator
-        preparation
-        unit
-        optional
+        raw
       }
       instructions {
-        text
+        raw
       }
     }
   }

@@ -1,6 +1,12 @@
-import { Ingredient } from './ingredient'
+export type Ingredient = {
+  raw: string
+  normalized?: string
+}
 
-type ProcedureParts = { text: string }
+export type Instructions = {
+  raw: string
+  normalized?: string
+}
 
 export type Recipe = {
   title: string
@@ -11,7 +17,7 @@ export type Recipe = {
   recipeYield?: string | number
   source?: string
   ingredients: Ingredient[]
-  instructions: ProcedureParts[]
+  instructions: Instructions[]
 }
 
 export type RecipeParts = Partial<Recipe>

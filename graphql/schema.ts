@@ -44,15 +44,12 @@ export const typeDefs = gql`
   }
 
   type Ingredient {
-    name: String!
-    quantityNumerator: Int
-    quantityDenominator: Int
-    preparation: String
-    unit: String
-    optional: Boolean
+    raw: String!
+    normalized: String
   }
 
   type Instruction {
-    text: String!
+    raw: String!
+    normalized: String
   }
 `
