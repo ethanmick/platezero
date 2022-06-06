@@ -111,14 +111,7 @@ export const addRecipe: FieldResolver<never, MutationAddRecipeArgs> = async (
           userId: user.id,
           ingredients: {
             createMany: {
-              data: recipe.ingredients.map((ing) => ({
-                name: ing.name,
-                quantityNumerator: ing.quantity_numerator,
-                quantityDenominator: ing.quantity_denominator,
-                unit: ing.unit,
-                preparation: ing.preparation,
-                optional: ing.optional,
-              })),
+              data: recipe.ingredients,
             },
           },
           instructions: {
@@ -128,7 +121,6 @@ export const addRecipe: FieldResolver<never, MutationAddRecipeArgs> = async (
       })
       return created
     } catch (err: any) {
-      console.error(err)
       if (err.code === 'P2002' && err.meta?.target?.includes('slug')) {
         count++
         continue
@@ -158,30 +150,6 @@ export const parseRecipe: FieldResolver<
   }
   const time = duration.parse(recipe.totalTime || '')
 
-  console.log('Parse recipe!', recipe)
-
-  console.log(
-    'OKAY WTF',
-
-    {
-      title: recipe.title,
-      slug: undefined,
-      image: recipe.image,
-      source: recipe.source,
-      yields: recipe.recipeYield ? `${recipe.recipeYield}` : undefined,
-      duration: duration.toSeconds(time),
-      ingredients: recipe.ingredients.map((ing) => ({
-        name: ing.name,
-        quantityNumerator: ing.quantity_numerator,
-        quantityDenominator: ing.quantity_denominator,
-        unit: ing.unit,
-        preparation: ing.preparation,
-        optional: ing.optional,
-      })),
-      instructions: recipe.instructions,
-    }
-  )
-
   return {
     title: recipe.title,
     slug: undefined,
@@ -189,14 +157,7 @@ export const parseRecipe: FieldResolver<
     source: recipe.source,
     yields: recipe.recipeYield ? `${recipe.recipeYield}` : undefined,
     duration: duration.toSeconds(time),
-    ingredients: recipe.ingredients.map((ing) => ({
-      name: ing.name,
-      quantityNumerator: ing.quantity_numerator,
-      quantityDenominator: ing.quantity_denominator,
-      unit: ing.unit,
-      preparation: ing.preparation,
-      optional: ing.optional,
-    })),
+    ingredients: recipe.ingredients,
     instructions: recipe.instructions,
   }
 }

@@ -1,6 +1,5 @@
 import * as cheerio from 'cheerio'
-import { parseIngredient } from '../ingredient'
-import { RecipeParts } from '../recipe'
+import { RecipeParts } from '../types'
 
 // Google has a library for these "schema-dts", but the types are _really_ stupid.
 // So I've rebuilt my own simpler version here
@@ -49,11 +48,9 @@ export const parse = async (
     cookTime: json.cookTime,
     totalTime: json.totalTime,
     recipeYield: json.recipeYield,
-    ingredients: json.recipeIngredient
-      ?.map(parseIngredient)
-      .filter((i) => i.name),
-    instructions: json.recipeInstructions.map(({ text }) => ({
-      text,
+    ingredients: json.recipeIngredient?.map((raw) => ({ raw })),
+    instructions: json.recipeInstructions.map(({ text: raw }) => ({
+      raw,
     })),
   }
 }

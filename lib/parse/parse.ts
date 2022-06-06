@@ -1,6 +1,6 @@
 import * as cheerio from 'cheerio'
 import { parse as LDJSONParse } from './parsers/ld-json'
-import { Recipe } from './recipe'
+import { Recipe } from './types'
 
 export const parse = async (html: string): Promise<Recipe> => {
   const $ = cheerio.load(html)

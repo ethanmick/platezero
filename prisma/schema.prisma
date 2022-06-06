@@ -40,22 +40,21 @@ model Recipe {
 }
 
 model Ingredient {
-  id                  Int     @id @default(autoincrement())
-  name                String
-  quantityNumerator   Int?
-  quantityDenominator Int?
-  preparation         String?
-  unit                String?
-  optional            Boolean
-  recipeId            Int
-  recipe              Recipe  @relation(fields: [recipeId], references: [id])
+  id         Int     @id @default(autoincrement())
+  raw        String
+  normalized String?
+  enhanced   String?
+  recipeId   Int
+  recipe     Recipe  @relation(fields: [recipeId], references: [id])
 }
 
 model Instruction {
-  id       Int    @id @default(autoincrement())
-  text     String
-  recipeId Int
-  recipe   Recipe @relation(fields: [recipeId], references: [id])
+  id         Int     @id @default(autoincrement())
+  raw        String
+  normalized String?
+  enhanced   String?
+  recipeId   Int
+  recipe     Recipe  @relation(fields: [recipeId], references: [id])
 }
 
 enum TemperatureUnit {
