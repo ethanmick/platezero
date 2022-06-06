@@ -7,7 +7,7 @@ import CredentialsProvider from 'next-auth/providers/credentials'
 export default NextAuth({
   adapter: PrismaAdapter(prisma),
   pages: {
-    // signIn: '/login',
+    signIn: '/login',
   },
   session: {
     strategy: 'jwt',
@@ -16,7 +16,7 @@ export default NextAuth({
     CredentialsProvider({
       name: 'Sign in',
       credentials: {
-        username: { label: 'Username', type: 'text', placeholder: 'username' },
+        username: { label: 'Username', type: 'text', placeholder: 'Username' },
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
@@ -31,7 +31,6 @@ export default NextAuth({
         if (!user) {
           return null
         }
-
         const passwordCorrect = await compare(
           credentials.password,
           user?.password
@@ -39,7 +38,6 @@ export default NextAuth({
         if (!passwordCorrect) {
           return null
         }
-        console.log('Auth, returning user', user)
         return {
           ...user,
           name: user.username,
@@ -49,7 +47,6 @@ export default NextAuth({
   ],
   callbacks: {
     async session({ session, token, user }) {
-      console.log('Session CB:', session, token, user)
       return {
         ...session,
         user: {
