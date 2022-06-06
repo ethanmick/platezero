@@ -19,10 +19,10 @@ const recipeQuery = gql`
       duration
       yields
       ingredients {
-        raw
+        normalized
       }
       instructions {
-        raw
+        normalized
       }
     }
   }
