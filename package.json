@@ -6,7 +6,9 @@
     "start": "next start",
     "lint": "next lint --max-warnings=0",
     "generate": "prisma generate && graphql-codegen",
-    "test": "jest"
+    "prisma:generate": "prisma generate",
+    "test": "jest",
+    "vercel-build": "prisma generate && prisma migrate deploy && next build"
   },
   "dependencies": {
     "@apollo/client": "3.6.4",
