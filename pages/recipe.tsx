@@ -107,7 +107,7 @@ const RecipePage: NextPage = () => {
   return (
     <>
       <Header />
-      <Main className="max-w-screen-lg md:mt-8">
+      <Main className="max-w-screen-lg md:mt-8 mb-4">
         {!recipe && (
           <ParseRecipeForm loading={loading} parseRecipe={parseRecipe} />
         )}
