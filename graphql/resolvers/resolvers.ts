@@ -4,6 +4,7 @@ import {
   recipe,
   recipeResolver,
   recipes,
+  updateRecipe,
 } from './recipe'
 import { register } from './user'
 
@@ -17,5 +18,6 @@ export const resolvers = {
     register,
     addRecipe,
     parseRecipe,
+    updateRecipe,
   },
 }

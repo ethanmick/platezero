@@ -57,7 +57,7 @@ const UserPage: NextPage<Props> = ({ recipes }) => {
     <>
       <Header />
       <Main>
-        <h1 className="text-2xl py-2 font-light text-center">Recipes</h1>
+        <h1 className="text-3xl mt-4 mb-2 font-semibold">Recipes</h1>
         <ul>
           {recipes.map((r) => (
             <RecipeCard {...r} key={r.slug} />

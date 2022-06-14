@@ -1,5 +1,7 @@
 export * from './button'
 export * from './header'
+export * from './input'
 export * from './layout'
 export * from './logo'
 export * from './recipe'
+export * from './textarea'

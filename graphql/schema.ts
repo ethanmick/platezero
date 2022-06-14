@@ -25,6 +25,11 @@ export const typeDefs = gql`
     Parse a recipe without a user account.
     """
     parseRecipe(url: String!): Recipe
+
+    """
+    Update and replace a recipe with new content
+    """
+    updateRecipe(recipe: RecipeInput!): Recipe!
   }
 
   type User {
@@ -51,5 +56,24 @@ export const typeDefs = gql`
   type Instruction {
     raw: String!
     normalized: String!
+  }
+
+  input IngredientInput {
+    raw: String!
+  }
+
+  input InstructionInput {
+    raw: String!
+  }
+
+  input RecipeInput {
+    id: Int!
+    title: String!
+    image: String
+    source: String
+    duration: Int
+    yields: String
+    ingredients: [IngredientInput!]!
+    instructions: [InstructionInput!]!
   }
 `
