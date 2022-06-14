@@ -3,10 +3,11 @@ import ImageKit from 'imagekit'
 import {
   MutationAddRecipeArgs,
   MutationParseRecipeArgs,
+  MutationUpdateRecipeArgs,
   Recipe as RecipeGraphQL,
   RecipeQueryVariables,
 } from 'lib/generated'
-import { parse } from 'lib/parse'
+import { parse, parseRaw } from 'lib/parse'
 import { parse as parsePath } from 'path'
 import slugify from 'slugify'
 import { v4 as uuid } from 'uuid'
@@ -160,4 +161,49 @@ export const parseRecipe: FieldResolver<
     ingredients: recipe.ingredients,
     instructions: recipe.instructions,
   }
+}
+
+export const updateRecipe: FieldResolver<
+  never,
+  MutationUpdateRecipeArgs
+> = async (_, { recipe }, ctx) => {
+  await ctx.prisma.ingredient.deleteMany({
+    where: {
+      recipeId: recipe.id,
+    },
+  })
+
+  await ctx.prisma.instruction.deleteMany({
+    where: {
+      recipeId: recipe.id,
+    },
+  })
+
+  recipe.ingredients = recipe.ingredients.map(parseRaw)
+  recipe.instructions = recipe.instructions.map(parseRaw)
+
+  const updated = await ctx.prisma.recipe.update({
+    where: {
+      id: recipe.id,
+    },
+    data: {
+      title: recipe.title,
+      image: recipe.image,
+      source: recipe.source,
+      yields: recipe.yields,
+      duration: recipe.duration,
+      ingredients: {
+        createMany: {
+          data: recipe.ingredients,
+        },
+      },
+      instructions: {
+        createMany: {
+          data: recipe.instructions,
+        },
+      },
+    },
+  })
+
+  return updated
 }
