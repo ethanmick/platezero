@@ -4,5 +4,6 @@ export enum Routes {
   Login = '/login',
   Register = '/register',
   User = '/[username]',
-  Recipe = '/[username]/[slug]',
+  UserRecipe = '/[username]/[slug]',
+  Recipe = '/recipe',
 }

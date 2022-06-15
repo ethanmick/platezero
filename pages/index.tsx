@@ -24,6 +24,9 @@ const Home: NextPage = () => {
             <button onClick={() => signOut()}>Logout</button>
           </div>
         )}
+        <Link href={{ pathname: Routes.Recipe }}>
+          <a>Recipe</a>
+        </Link>
       </div>
     </>
   )

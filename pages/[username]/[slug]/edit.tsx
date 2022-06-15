@@ -85,7 +85,7 @@ const EditRecipe: NextPage<Props> = ({ recipe: initial }) => {
         },
       })
       router.push({
-        pathname: Routes.Recipe,
+        pathname: Routes.UserRecipe,
         query: {
           username,
           slug: data?.updateRecipe.slug,
