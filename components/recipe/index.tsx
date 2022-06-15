@@ -102,7 +102,7 @@ export const Recipe = ({ recipe }: RecipeProps) => {
         </div>
         <div>
           <h2 className="text-2xl font-semibold my-2">Instructions</h2>
-          <ol className="list-decimal pl-4">
+          <ol className="list-decimal pl-5">
             {recipe.instructions.map((inst, key) => (
               <Instruction key={key} {...inst} />
             ))}

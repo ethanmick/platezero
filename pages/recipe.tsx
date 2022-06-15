@@ -12,7 +12,6 @@ import {
   ParseRecipeMutationVariables,
 } from 'lib/generated'
 import type { NextPage } from 'next'
-import React from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 const mutation = gql`
@@ -81,7 +80,7 @@ const ParseRecipeForm = ({ parseRecipe, loading }: ParseRecipeFormProps) => {
         <input
           {...register('url', { required: true })}
           autoFocus
-          className="text-xl leading-10 border w-full rounded-full pl-4 pr-20"
+          className="text-xl leading-10 border w-full rounded-full pl-4 pr-32"
           placeholder="https://myfavoriterecipes.com/recipe"
         />
         <Button
