@@ -6,7 +6,6 @@ import { AddRecipeMutation, AddRecipeMutationVariables } from 'lib/generated'
 import type { NextPage } from 'next'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
-import React from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 const mutation = gql`
@@ -41,7 +40,7 @@ const Add: NextPage = () => {
   >(mutation, {
     onCompleted: (data) => {
       router.push({
-        pathname: Routes.Recipe,
+        pathname: Routes.UserRecipe,
         query: {
           username: session?.user.name,
           slug: data.addRecipe?.slug,
